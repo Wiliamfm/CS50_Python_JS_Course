@@ -1,0 +1,40 @@
+* {
+    margin: 10px;
+}
+
+div>a {
+    display: block;
+    text-align: right;
+}
+
+h1 {
+    font-weight: 100;
+    color: red;
+    border-style: hidden hidden solid hidden;
+    border-color: slategray;
+    padding: 10px;
+}
+
+input {
+    padding: 5px;
+}
+
+input[type=submit] {
+    background-color: royalblue;
+    color: white;
+    border-radius: 5px;
+}
+
+form{
+    display: grid;
+    grid-template-columns: 15% 60%;
+}
+
+form>div {
+    display: grid;
+    grid-template-columns: auto;
+}
+
+a {
+    text-decoration: none;
+}
