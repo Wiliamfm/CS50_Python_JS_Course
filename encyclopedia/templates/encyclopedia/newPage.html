@@ -1,0 +1,30 @@
+{% extends "encyclopedia/layout.html" %}
+{% block title %}
+Create new Page
+{% endblock %}
+
+{% block body %}
+<div id="message">
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+<form action="" class="row g-3" method="POST">
+  {% csrf_token %}
+  <div class="col-12">
+    {{form}}
+  </div>
+  <div class="col-12">
+    <input type="submit" value="Create Page" class="btn btn-primary">
+  </div>
+</form>
+{% endblock %}
+<script>
+  setTimeout(function () {
+    $('#message').fadeOut('fast');
+  }, 1000);
+</script>
