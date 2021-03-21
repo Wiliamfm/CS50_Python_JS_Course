@@ -10,7 +10,7 @@ def list_entries():
     """
     _, filenames = default_storage.listdir("entries")
     return list(sorted(re.sub(r"\.md$", "", filename)
-                for filename in filenames if filename.endswith(".md")))
+                       for filename in filenames if filename.endswith(".md")))
 
 
 def save_entry(title, content):
@@ -35,3 +35,20 @@ def get_entry(title):
         return f.read().decode("utf-8")
     except FileNotFoundError:
         return None
+
+
+def searchEntry(title):
+    """Search the encyclopedia. If the title dont match, return a list of al encyclopedia that match with title as substring
+
+    Args:
+        title ([String]): [the title to search]
+    """
+    title = title.lower()
+    subList = []
+    for t in list_entries():
+        t = t.lower()
+        print(t)
+        print(title in t)
+        if title in t:
+            subList.append(t.capitalize())
+    return subList

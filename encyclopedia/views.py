@@ -4,6 +4,10 @@ from . import util
 
 
 def index(request):
+    if request.method == "GET":
+        if len(request.GET) != 0:
+            search = request.GET["q"]
+            return render(request, "encyclopedia/index.html", {"entries": util.searchEntry(search)})
     return render(request, "encyclopedia/index.html",
                   {"entries": util.list_entries()})
 
