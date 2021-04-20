@@ -7,3 +7,7 @@ class NewPageForm(forms.Form):
         attrs={"class": "form-label"}))
     text = CharField(label="Enter the content of the Wiki:",
                      widget=forms.Textarea(attrs={"class": "form-label"}))
+
+
+class EditPageForm(forms.Form):
+    text = CharField(widget=forms.Textarea(attrs={"class": "form-label"}))

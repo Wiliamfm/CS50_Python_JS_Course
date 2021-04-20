@@ -4,14 +4,8 @@ Create new Page
 {% endblock %}
 
 {% block body %}
-<div id="message">
-  {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-      {% endfor %}
-  </ul>
-  {% endif %}
+<div class="text-center">
+  {{title}}
 </div>
 <form action="" class="row g-3" method="POST">
   {% csrf_token %}

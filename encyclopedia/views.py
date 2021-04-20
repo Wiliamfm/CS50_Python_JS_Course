@@ -23,6 +23,16 @@ def wikis(request, title):
     })
 
 
+def editPage(request, title):
+    form = forms.EditPageForm(initial={"text": util.get_entry(title)})
+    if request.method == "POST":
+        f = forms.EditPageForm(request.POST)
+        if f.is_valid():
+            util.save_entry(title, f.cleaned_data["text"])
+        return HttpResponseRedirect(reverse("encyclopedia:index"))
+    return render(request, "encyclopedia/editPage.html", {"title": title, "form": form})
+
+
 def newPage(request):
     nPageForm = forms.NewPageForm()
     if request.method == "POST":
