@@ -20,12 +20,9 @@ def index(request):
 
 
 def wikis(request, title):
-    print((markdown.markdown('<div markdown="1">' +
-                             util.get_entry(title)+'</div>', extensions=["md_in_html"])))
     return render(request, "encyclopedia/wiki.html", {
         "title": title.capitalize(),
         "wikiInfo": markdown.markdown(util.get_entry(title), extensions=['fenced_code'])
-        # "wikiInfo": util.get_entry(title)
     })
 
 
