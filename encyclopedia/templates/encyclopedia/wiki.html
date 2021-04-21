@@ -10,7 +10,17 @@
     {% ifequal wikiInfo None %}
     <p>The wiki {{title}} does not exists</p>
     {% else %}
-    {{wikiInfo}}
+    <!--
+    <div class="text-uppercase text-center">
+      <h1>{{title}}</h1>
+    </div>
+    <br>
+    <br>
+    <div markdown="1">
+      {{wikiInfo}}
+    </div>
+    -->
+    {{wikiInfo | safe}}
     {% endifequal %}
   </div>
   <div class="fixed-buttom" style="margin: 20px;">

@@ -5,7 +5,9 @@ Create new Page
 
 {% block body %}
 <div class="text-center">
-  {{title}}
+  <h1>
+    {{title}}
+  </h1>
 </div>
 <form action="" class="row g-3" method="POST">
   {% csrf_token %}

@@ -1,7 +1,10 @@
+import re
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
+import random
+import markdown
 
 from . import util
 from . import forms
@@ -17,9 +20,12 @@ def index(request):
 
 
 def wikis(request, title):
+    print((markdown.markdown('<div markdown="1">' +
+                             util.get_entry(title)+'</div>', extensions=["md_in_html"])))
     return render(request, "encyclopedia/wiki.html", {
         "title": title.capitalize(),
-        "wikiInfo": util.get_entry(title)
+        "wikiInfo": markdown.markdown(util.get_entry(title), extensions=['fenced_code'])
+        # "wikiInfo": util.get_entry(title)
     })
 
 
@@ -50,3 +56,7 @@ def newPage(request):
         else:
             return render(request, "encyclopedia/newPage.html", {"form": form})
     return render(request, "encyclopedia/newPage.html", {"form": nPageForm})
+
+
+def randomWiki(request):
+    return wikis(request, random.choice(util.list_entries()))
