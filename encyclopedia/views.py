@@ -1,5 +1,6 @@
 import re
 from django.http import HttpResponseRedirect
+from django.http.response import Http404, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
@@ -14,16 +15,24 @@ def index(request):
     if request.method == "GET":
         if len(request.GET) != 0:
             search = request.GET["q"]
-            return render(request, "encyclopedia/index.html", {"entries": util.searchEntry(search)})
+            return render(request, "encyclopedia/index.html",
+                          {"entries": util.searchEntry(search)})
     return render(request, "encyclopedia/index.html",
                   {"entries": util.list_entries()})
 
 
 def wikis(request, title):
-    return render(request, "encyclopedia/wiki.html", {
-        "title": title.capitalize(),
-        "wikiInfo": markdown.markdown(util.get_entry(title), extensions=['fenced_code'])
-    })
+    if (util.get_entry(title) == None):
+        return HttpResponse(f"The wiki {title} dont exists")
+    else:
+        return render(
+            request, "encyclopedia/wiki.html", {
+                "title":
+                title.capitalize(),
+                "wikiInfo":
+                markdown.markdown(util.get_entry(title),
+                                  extensions=['fenced_code'])
+            })
 
 
 def editPage(request, title):
@@ -33,7 +42,10 @@ def editPage(request, title):
         if f.is_valid():
             util.save_entry(title, f.cleaned_data["text"])
         return HttpResponseRedirect(reverse("encyclopedia:index"))
-    return render(request, "encyclopedia/editPage.html", {"title": title, "form": form})
+    return render(request, "encyclopedia/editPage.html", {
+        "title": title,
+        "form": form
+    })
 
 
 def newPage(request):
@@ -47,9 +59,11 @@ def newPage(request):
                 util.save_entry(fTitle, fText)
                 return HttpResponseRedirect(reverse("encyclopedia:index"))
             else:
-                messages.add_message(request, messages.INFO,
-                                     f"ERROR: the wiki {fTitle} already exist")
-                return render(request, "encyclopedia/newPage.html", {"form": form})
+                messages.add_message(
+                    request, messages.INFO,
+                    f"ERROR: the wiki {fTitle} already exist")
+                return render(request, "encyclopedia/newPage.html",
+                              {"form": form})
         else:
             return render(request, "encyclopedia/newPage.html", {"form": form})
     return render(request, "encyclopedia/newPage.html", {"form": nPageForm})
