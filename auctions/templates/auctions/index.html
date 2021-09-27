@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    <div class="container">
+        {% for auction in auctions %}
+            <div class="container">
+                <div class="row" style="margin: 20px; padding: 10px; border-style: solid; border-width: 1px;">
+                    <div class="column" style="margin: 10px; border-style: solid; border-width: 0.5px;">
+                        <img src="{{ auction.image }}" alt="Auction´s id: {{ auction.id }}">
+                    </div>
+                    <div class="column" style="margin: 10px;">
+                        <a href="{% url 'auction' auction.id %}"><strong>{{ auction.title }}</strong></a>
+                        <br>
+                        <strong>Price: </strong> {{ auction.bid }}
+                        <br>
+                        {{ auction.description }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

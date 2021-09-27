@@ -1,0 +1,26 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}
+	Watchlist
+{% endblock %}
+{% block body %}
+	<div class="container" style="margin: 10px; padding: 10px; border-width: 1px; border-style: solid;">
+		<h1>Watchlist</h1>
+		{% for w in user.watchlist.all %}
+      <div class="container">
+          <div class="row" style="margin: 20px; padding: 10px; border-style: solid; border-width: 1px;">
+              <div class="column" style="margin: 10px; border-style: solid; border-width: 0.5px;">
+                  <img src="{{ w.item.image }}" alt="Auction´s id: {{ w.item.id }}">
+              </div>
+              <div class="column" style="margin: 10px;">
+                  <a href="{% url 'auction' w.item.id %}"><strong>{{ w.item.title }}</strong></a>
+                  <br>
+                  <strong>Price: </strong> {{ w.item.bid }}
+                  <br>
+                  {{ w.item.description }}
+              </div>
+          </div>
+      </div>
+    {% endfor %}
+	</div>
+{% endblock %}

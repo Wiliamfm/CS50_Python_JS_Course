@@ -1,0 +1,15 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}
+  Categories
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <ul class="list-group">
+      {% for c in categories %}
+        <a href="{% url 'indexFilter' c %}" class="list-group-item">{{ c }}</a>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

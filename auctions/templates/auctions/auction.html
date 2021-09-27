@@ -1,0 +1,99 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+	{% if message %}
+		<div class="alert alert-danger" role="alert">
+  		{{ message }}
+		</div>
+	{% endif %}
+	{% if bid.user == request.user and not auction.state%}
+		<div class="alert alert-success" role="alert">
+			Congratulations! You won this auction
+		</div>
+	{% endif %}
+	{% if not auction.state %}
+		<div class="alert alert-danger" role="alert">
+			Auction closed
+		</div>
+	{% endif %}
+	<h1>Auction</h1>
+	<div class="container">
+		<!-- add the target attribute to form tag-->
+		<iframe name="dummyFrame" style="display: none;"></iframe>
+		<form action="{% url 'watchlist' auction.id %}" method="post">
+			{% csrf_token %}
+			<input type="hidden" name="auctionId" value="{{auction.id}}">
+			{% if watchlist %}
+				<input class="btn btn-outline-dark btn-sm" type="submit" value="Delete of the watchlist">
+			{% else %}
+				<input class="btn btn-outline-dark btn-sm" type="submit" value="Add to watchlist">
+			{% endif %}
+		</form>
+		{% if auction.user == request.user %}
+			<form action="{% url 'close_auction' auction.id %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="state" value="{{auction.state}}">
+				<input type="submit" value="Close auction" class="btn btn-outline-danger btn-sm">
+			</form>
+		{% endif %}
+	</div>
+	<div class="container">
+		<img src="{{ auction.image }}" alt="id: {{ auction.id }}">
+	</div>
+	<div class="container" style="margin: 10px; padding: 10px; border-width: 1px; border-style: solid;">
+		<h4>{{ auction.title }}</h4>
+		<h2><strong>Price: {{bid.price}} </strong></h2>
+		<small class="text-muted">{{ auction.bids.count }} bid(s) so far. 
+			{% if request.user.username == bid.user.username %}
+				your bid is the current bid.
+			{% else %}
+				{{ bid.user.username }}´s bid is the current bid
+			{% endif %}	
+		</small>
+		{% if auction.state %}
+			<form action="{% url 'auction' auction.id %}" method="post">
+				{% csrf_token %}
+				<input type="number" name="bid" id="bid" placeholder="Bid" required>
+				<input type="submit" value="Place bid" class="btn btn-primary">
+			</form>
+		{% else %}
+				<div class="alert alert-light" role="alert">
+  				The auction is close, the price is {{	bid.price }} and the winner is {{ bid.user.username }}
+				</div>
+		{% endif %}
+		<h2>Details:</h2>
+		<ul>
+			<li>Listed by: {{ auction.user.username }}</li>
+			<li>Category: {{ auction.category }}</li>
+		</ul>
+	</div>
+	<div class="container">
+		<h3>Comments</h3>
+		<div class="container-fluid">
+			<ul class="list-group">
+				{% for comment in comments %}
+					<li class="list-group-item">
+						<p class="text-right">
+							<strong>{{ comment.user.username }}</strong>
+							<em><small>{{ comment.date }}</small></em>
+						</p>
+						<p>
+							{{ comment.message }}
+						</p>
+					</li>
+				{% endfor %}
+				<li class="list-group-item">
+					<form id="fComment" action="{% url 'add_comment' auction.id %}" method="post">
+						{% csrf_token %}
+						<div class="mb-3">
+							<textarea form="fComment" name="comment" class="form-control"></textarea>
+						</div>
+						<div class="mb-3">
+							<input type="submit" value="Add Comment" class="btn btn-primary" style="float: right;">
+						</div>
+					</form>
+				</li>
+			</ul>
+		</div>
+	</div>
+{% endblock %}
