@@ -18,9 +18,21 @@ function compose_email(replyRecipient, replySubject, replyBody, replyTimestamp) 
   document.querySelector('#compose-view').style.display = 'block';
 
   // Clear out composition fields
-  document.querySelector('#compose-recipients').value = replyRecipient;
-  document.querySelector('#compose-subject').value = 'Re: ' +replySubject;
-  document.querySelector('#compose-body').value = `On ${replyTimestamp} ${replyRecipient} wrote:\n ${replyBody}\n`;
+  if(replyRecipient==undefined || replySubject==undefined || replyBody==undefined || replyTimestamp==undefined){
+    document.querySelector('#compose-recipients').value = '';
+    document.querySelector('#compose-subject').value ='' ;
+    document.querySelector('#compose-body').value ='' ;
+  }else{
+    document.querySelector('#compose-recipients').value = replyRecipient;
+    let re = /^(Re:)/;
+    if(re.test(replySubject)){
+      document.querySelector('#compose-subject').value = replySubject;
+    }else{
+      document.querySelector('#compose-subject').value = 'Re: ' +replySubject;
+    }
+
+    document.querySelector('#compose-body').value = `On ${replyTimestamp} ${replyRecipient} wrote:\n ${replyBody}\n`;
+  }
 
   document.forms['compose-form'].onsubmit = function() {
     fetch('/emails', {
@@ -153,7 +165,7 @@ function  loadEmailView(){
     body.textContent= email.body;
     const btn= document.querySelector('#btn');
     btn.addEventListener('click', () => {
-      compose_email(email.recipients, email.subject, email.body, email.timestamp);
+      compose_email(email.sender, email.subject, email.body, email.timestamp);
     });
     fetch('/emails/'+email.id,{
       method: 'PUT',
