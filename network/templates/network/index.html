@@ -1,0 +1,46 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block script %}
+    <script> 
+        var urlProfile= "{% url 'userInfo' 'user_id' %}"
+        var netUser= "{{ user.username }}";
+    </script>
+    <script src= "{% static 'network/index.js' %}"></script>
+    <style>
+        #allPosts_newPost {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+        }
+        .newPost {
+            margin: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        <div class="container" id="postForm">
+            <div class="container" id="newPost">
+                <h3 class="newPost">New Post</h3>
+                <textarea class="newPost" name="postContent" id="postContent" cols="100" rows="10"></textarea>
+                <button type="submit" class="btn btn-primary newPost" id="btnSubmitPost">Post</button>
+            </div>
+        </div>
+    {% endif %}
+    <div class="container" id="allPost">
+        <div class="list-group" id="listPosts">
+        </div>
+        <div class= "container" id="divPagination" style= "margin: 10px;">
+            <ul class="pagination">
+                <li id="liPrevious">
+                </li>
+                <li class="page-item active" aria-current="page" id="liCurrentPage">
+                </li>
+                <li id="liNext">
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

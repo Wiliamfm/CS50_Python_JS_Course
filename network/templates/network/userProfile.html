@@ -1,0 +1,48 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block script %}
+    <script src= "{% static 'network/userProfile.js' %}"></script>
+    <script>
+      var username= "{{ netUser.username }}";
+      var urlProfile= "{% url 'userInfo' 'user_id' %}"
+      var netUser= "{{ user.username }}"
+      var canEdit= false;
+      if ("{{ user }}" == "{{ netUser }}"){
+        canEdit= true;
+      }
+    </script>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <h1>{{ netUser.username }}</h1>    
+  <h6>Following: {{ followingCount }} </h6>
+  <h6>Followers: {{ followersCount }} </h6>
+</div>
+    {% if user.is_authenticated %}
+    <div class= "container" style= "margin: 10px;">
+      {% if isValidFollow %}
+        {% if areFollowing %}
+          <button class="btn btn-primary" id="btnFollow">Unfollow</button>
+        {% else %}
+          <button class="btn btn-primary" id="btnFollow">Follow</button>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% endif %}
+    <div class="container" id="posts">
+        <div class="list-group" id="listPosts">
+        </div>
+    </div>
+    <div class= "container" id="divPagination" style= "margin: 10px;">
+        <ul class="pagination">
+            <li id="liPrevious">
+            </li>
+            <li class="page-item active" aria-current="page" id="liCurrentPage">
+            </li>
+            <li id="liNext">
+            </li>
+        </ul>
+    </div>
+{% endblock %}
