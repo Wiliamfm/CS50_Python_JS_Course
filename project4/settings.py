@@ -27,7 +27,7 @@ SECRET_KEY = '13kl@xtukpwe&xj2xoysxe9_6=tf@f8ewxer5n&ifnd46+6$%8'
 DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
-mimetypes.add_type("application/javascript", ".js", True)
+mimetypes.add_type("application/json", ".js", True)
 
 
 # Application definition
