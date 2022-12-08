@@ -2,33 +2,34 @@
 {% load static %}
 
 {% block script %}
-    <script> var urlProfile= "{% url 'userInfo' 'user_id' %}"</script>
-    <script src= "{% static 'network/followPost.js' %}"></script>
-    <style>
-        #allPosts_newPost {
-            display: flex;
-            flex-direction: column;
-            align-items: baseline;
-        }
-        .newPost {
-            margin: 10px;
-        }
-    </style>
+<script> var urlProfile = "{% url 'userInfo' 'user_id' %}"</script>
+<script src="{% static './network/followPost.js' %}"></script>
+<style>
+    #allPosts_newPost {
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+    }
+
+    .newPost {
+        margin: 10px;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
-  <div class="container" id="allPost">
-      <div class="list-group" id="listPosts">
-      </div>
-  </div>
-    <div class= "container" id="divPagination" style= "margin: 10px;">
-        <ul class="pagination">
-            <li id="liPrevious">
-            </li>
-            <li class="page-item active" aria-current="page" id="liCurrentPage">
-            </li>
-            <li id="liNext">
-            </li>
-        </ul>
+<div class="container" id="allPost">
+    <div class="list-group" id="listPosts">
     </div>
+</div>
+<div class="container" id="divPagination" style="margin: 10px;">
+    <ul class="pagination">
+        <li id="liPrevious">
+        </li>
+        <li class="page-item active" aria-current="page" id="liCurrentPage">
+        </li>
+        <li id="liNext">
+        </li>
+    </ul>
+</div>
 {% endblock %}
