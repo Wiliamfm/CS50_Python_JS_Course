@@ -1,0 +1,32 @@
+{% extends 'veterinary/base.html' %}
+
+{% block title %}
+login
+{% endblock %}
+
+{% block body %}
+<h1>Login</h1>
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+{% if user.is_authenticated %}
+<p>Your account doesn't have access to this page. To proceed,
+	please login with an account that has access.</p>
+{% else %}
+<p>Please login to see this page.</p>
+{% endif %}
+{% endif %}
+
+<form method="post">
+	{% csrf_token %}
+	<label for="username">Username:</label>
+	<input type="text" id="username" name="username" required><br><br>
+
+	<label for="password">Password:</label>
+	<input type="password" id="password" name="password" required><br><br>
+
+	<input type="submit" value="Login">
+</form>
+{% endblock %}

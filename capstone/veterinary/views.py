@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.db import transaction, IntegrityError
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from . import models
 
 
@@ -29,12 +30,18 @@ def register(request):
                 client = models.UserApp(
                     user=user, type=models.UserType.objects.get(type="client"))
                 client.save()
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
                 return JsonResponse({
                     'username': client.user.username,
                     'first_name': client.user.first_name,
                     'last_name': client.user.last_name,
                     'email': client.user.email,
                     'role': client.type.type
+                })
+            else:
+                return render(request, 'veterinary/register.html', {
+                    'error_msg': 'ah? already exists.'
                 })
         except IntegrityError:
             return render(request, 'veterinary/register.html', {
