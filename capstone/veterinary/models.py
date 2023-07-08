@@ -7,12 +7,18 @@ from django.conf import settings
 class UserType(models.Model):
     type = models.CharField(max_length=10)
 
+    def __str__(self):
+        return f"{self.id}: {self.type}"
+
 
 class UserApp(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False)
     type = models.ForeignKey(
         UserType, on_delete=models.CASCADE, null=False, blank=False)
+
+    def __str__(self):
+        return f"{self.id}: {self.user.username}"
 
 
 class Appointment(models.Model):
